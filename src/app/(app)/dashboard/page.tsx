@@ -172,7 +172,7 @@ export default function DashboardPage() {
 
   const supabase = createClient();
 
-  function actionSpellButton(x: (typeof c.actionsSpells)[number]) {
+  function actionSpellButton(x: Character["actionsSpells"][number]) {
     const pool = x.kind === "spell" ? "MP" : "SP";
     const cost = adjustedActionCost(c!, x.baseCost);
     const costLabel = cost !== x.baseCost ? `${cost} ${pool} (base ${x.baseCost})` : `${cost} ${pool}`;
