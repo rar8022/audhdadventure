@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #faf6ee;
+  --card: #ffffff;
+  --ink: #2e2a3d;
+  --muted: #746f87;
+  --border: #e4dcc8;
+  --accent: #6c5ce7;
+  --accent-dark: #4e3fc0;
+  --accent-bg: #efeafb;
+  --hp: #d9607e;
+  --hp-bg: #fbe7ec;
+  --sp: #2e9c86;
+  --sp-bg: #e3f5f1;
+  --mp: #7c5ce0;
+  --mp-bg: #efeafb;
+  --warn: #c97a2e;
+  --warn-bg: #fbeedf;
+  --good: #3e8e52;
+  --good-bg: #e7f3e9;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+@layer components {
+  .card {
+    @apply rounded-card border border-border bg-card p-4 shadow-sm;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+  .chip.buff {
+    background: var(--good-bg);
+    color: var(--good);
+  }
+  .chip.debuff {
+    background: var(--warn-bg);
+    color: var(--warn);
+  }
+  .chip.mask {
+    background: var(--mp-bg);
+    color: var(--accent-dark);
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold;
+  }
+  .badge.login {
+    background: var(--sp-bg);
+    color: var(--sp);
+  }
+  .badge.checkin {
+    background: var(--mp-bg);
+    color: var(--accent-dark);
+  }
+  .badge.edited {
+    background: var(--warn-bg);
+    color: var(--warn);
+  }
+  .badge.growth {
+    background: var(--good-bg);
+    color: var(--good);
+  }
+  .badge.buff {
+    background: var(--good-bg);
+    color: var(--good);
+  }
+  .badge.debuff {
+    background: var(--warn-bg);
+    color: var(--warn);
+  }
+  .badge.quest {
+    background: #ede6d6;
+    color: #7a6a4e;
+  }
+  .badge.action {
+    background: var(--sp-bg);
+    color: var(--sp);
+  }
+  .badge.spell {
+    background: var(--mp-bg);
+    color: var(--mp);
+  }
+  .btn {
+    @apply rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50;
+  }
+  .btn.secondary {
+    @apply border border-border bg-card text-ink;
+  }
+  .btn.ghost {
+    @apply bg-transparent text-accent-dark;
+  }
+  .btn.small {
+    @apply px-2.5 py-1 text-xs;
+  }
+  .pool-track {
+    @apply h-2.5 overflow-hidden rounded-full;
+    background: #efebe0;
+  }
+  .pool-fill {
+    @apply h-full rounded-full;
+  }
+  .pool-fill.p-hp {
+    background: var(--hp);
+  }
+  .pool-fill.p-sp {
+    background: var(--sp);
+  }
+  .pool-fill.p-mp {
+    background: var(--mp);
+  }
+  .empty {
+    @apply text-sm text-muted;
+  }
+}
