@@ -25,7 +25,7 @@ export default function HistoryEditForm({
   const saveHistoryEdit = useAppStore((s) => s.saveHistoryEdit);
   const cancelEditHistory = useAppStore((s) => s.cancelEditHistory);
 
-  const d = record.data as CheckinData;
+  const d = record.data as unknown as CheckinData;
   const owner = characters[record.characterId];
 
   const [mainRole, setMainRole] = useState(d.mainRole || MAIN_ROLES[0]);

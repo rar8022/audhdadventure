@@ -17,6 +17,14 @@ import GrowthChart from "@/components/GrowthChart";
 import HistoryRow from "@/components/HistoryRow";
 import type { Character } from "@/lib/game/types";
 
+interface CheckinData {
+  mainRole?: string;
+  activeMasks?: string[];
+  activeBuffsDebuffs?: string[];
+  pools: { HP: number; SP: number; MP: number };
+  physicalStats: Character["physicalStats"];
+}
+
 export default function DashboardPage() {
   const account = useAppStore((s) => s.account);
   const characters = useAppStore((s) => s.characters);
@@ -80,80 +88,78 @@ export default function DashboardPage() {
           </div>
         ) : (
           <>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div className="card">
-                <h3 className="font-semibold">Vital resources</h3>
-                <p className="mb-2 text-sm text-muted">
-                  As recorded at {record.at}
-                  {record.edited ? " (edited since)" : ""}.
-                </p>
-                {(["HP", "SP", "MP"] as const).map((type) => (
-                  <PoolBar
-                    key={type}
-                    type={type}
-                    current={(record.data as { pools: Record<string, number> }).pools[type]}
-                    max={c.pools[type].max}
-                  />
-                ))}
-              </div>
-              <div className="card">
-                <h3 className="font-semibold">Physical stats</h3>
-                <div className="mt-2 grid grid-cols-3 gap-2">
-                  {PHYS_STATS.map((s) => (
-                    <StatBox
-                      key={s.key}
-                      label={s.label}
-                      value={
-                        (record.data as { physicalStats: Character["physicalStats"] })
-                          .physicalStats[s.key]
-                      }
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div className="card">
-                <h3 className="font-semibold">Masks that day</h3>
-                {(record.data as { activeMasks?: string[] }).activeMasks?.length ? (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {(record.data as { activeMasks: string[] }).activeMasks.map((m) => (
-                      <span key={m} className="chip mask">
-                        {m}
-                      </span>
-                    ))}
+            {(() => {
+              const data = record.data as unknown as CheckinData;
+              return (
+                <>
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div className="card">
+                      <h3 className="font-semibold">Vital resources</h3>
+                      <p className="mb-2 text-sm text-muted">
+                        As recorded at {record.at}
+                        {record.edited ? " (edited since)" : ""}.
+                      </p>
+                      {(["HP", "SP", "MP"] as const).map((type) => (
+                        <PoolBar
+                          key={type}
+                          type={type}
+                          current={data.pools[type]}
+                          max={c.pools[type].max}
+                        />
+                      ))}
+                    </div>
+                    <div className="card">
+                      <h3 className="font-semibold">Physical stats</h3>
+                      <div className="mt-2 grid grid-cols-3 gap-2">
+                        {PHYS_STATS.map((s) => (
+                          <StatBox key={s.key} label={s.label} value={data.physicalStats[s.key]} />
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                ) : (
-                  <p className="empty mt-2">No masks recorded as active that day.</p>
-                )}
-              </div>
-              <div className="card">
-                <h3 className="font-semibold">Buffs &amp; debuffs that day</h3>
-                {(record.data as { activeBuffsDebuffs?: string[] }).activeBuffsDebuffs?.length ? (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {(record.data as { activeBuffsDebuffs: string[] }).activeBuffsDebuffs.map(
-                      (b) => (
-                        <span key={b} className="chip buff">
-                          {b}
-                        </span>
-                      )
-                    )}
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div className="card">
+                      <h3 className="font-semibold">Masks that day</h3>
+                      {data.activeMasks?.length ? (
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {data.activeMasks.map((m) => (
+                            <span key={m} className="chip mask">
+                              {m}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="empty mt-2">No masks recorded as active that day.</p>
+                      )}
+                    </div>
+                    <div className="card">
+                      <h3 className="font-semibold">Buffs &amp; debuffs that day</h3>
+                      {data.activeBuffsDebuffs?.length ? (
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {data.activeBuffsDebuffs.map((b) => (
+                            <span key={b} className="chip buff">
+                              {b}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="empty mt-2">Nothing recorded that day.</p>
+                      )}
+                    </div>
                   </div>
-                ) : (
-                  <p className="empty mt-2">Nothing recorded that day.</p>
-                )}
-              </div>
-            </div>
-            <div className="card mt-4">
-              <p className="text-sm text-muted">
-                Main role that day: {(record.data as { mainRole?: string }).mainRole || "—"}
-              </p>
-              <div className="mt-2">
-                <Link href="/history" className="btn secondary small">
-                  Edit this entry in History
-                </Link>
-              </div>
-            </div>
+                  <div className="card mt-4">
+                    <p className="text-sm text-muted">
+                      Main role that day: {data.mainRole || "—"}
+                    </p>
+                    <div className="mt-2">
+                      <Link href="/history" className="btn secondary small">
+                        Edit this entry in History
+                      </Link>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
           </>
         )}
       </>

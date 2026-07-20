@@ -45,7 +45,7 @@ export default function GrowthPage() {
   const todaysApproved = myGrowth.filter((r) => r.date === today);
 
   const atMax = c.physicalStats[stat] >= STAT_MAX;
-  const loggedToday = todaysApproved.some((r) => (r.data as GrowthData).stat === stat);
+  const loggedToday = todaysApproved.some((r) => (r.data as unknown as GrowthData).stat === stat);
   const canSubmit =
     challenge.trim() && skill.trim() && journey.trim() && !atMax && !loggedToday && !submitting;
 
@@ -79,7 +79,7 @@ export default function GrowthPage() {
         {myGrowth.length ? (
           <div className="mt-2">
             {myGrowth.map((r) => {
-              const d = r.data as GrowthData;
+              const d = r.data as unknown as GrowthData;
               const statLabel = PHYS_STATS.find((s) => s.key === d.stat);
               const headline = d.leveledUp
                 ? `Leveled up ${statLabel?.label ?? d.stat} to ${d.pointsAfter}/${STAT_MAX}!`

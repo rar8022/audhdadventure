@@ -76,6 +76,6 @@ export function questCompletedToday(
       r.type === "quest_complete" &&
       r.characterId === characterId &&
       r.date === today &&
-      (r.data as { title?: string }).title === title
+      (r.data as unknown as { title?: string }).title === title
   );
 }
