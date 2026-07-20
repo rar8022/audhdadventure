@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { SupabaseBrowserClient } from "@/lib/supabase/client";
+import type { Json } from "@/lib/supabase/types";
 import type {
   Account,
   ActionSpell,
@@ -618,7 +619,11 @@ export const useAppStore = create<AppState>()((set, get) => ({
     }));
     await supabase
       .from("history")
-      .update({ data: updated.data, edited: true, edited_at: new Date().toISOString() })
+      .update({
+        data: updated.data as unknown as Json,
+        edited: true,
+        edited_at: new Date().toISOString(),
+      })
       .eq("id", id);
     get().toast("Entry updated");
   },

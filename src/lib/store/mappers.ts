@@ -1,4 +1,4 @@
-import type { Database } from "@/lib/supabase/types";
+import type { Database, Json } from "@/lib/supabase/types";
 import type { Account, Character, HistoryRecord, SwitchLogEntry } from "@/lib/game/types";
 
 type CharacterRow = Database["public"]["Tables"]["characters"]["Row"];
@@ -38,15 +38,15 @@ export function characterToRow(character: Character): Database["public"]["Tables
     name: character.name,
     main_role: character.mainRole,
     main_role_why: character.mainRoleWhy,
-    physical_stats: character.physicalStats,
-    stat_xp: character.statXP,
-    pools: character.pools,
-    day_settings: character.daySettings,
-    sub_roles: character.subRoles,
-    active_buffs: character.activeBuffs,
-    custom_buffs_debuffs: character.customBuffsDebuffs,
-    actions_spells: character.actionsSpells,
-    pool_spent: character.poolSpent,
+    physical_stats: character.physicalStats as unknown as Json,
+    stat_xp: character.statXP as unknown as Json,
+    pools: character.pools as unknown as Json,
+    day_settings: character.daySettings as unknown as Json,
+    sub_roles: character.subRoles as unknown as Json,
+    active_buffs: character.activeBuffs as unknown as Json,
+    custom_buffs_debuffs: character.customBuffsDebuffs as unknown as Json,
+    actions_spells: character.actionsSpells as unknown as Json,
+    pool_spent: character.poolSpent as unknown as Json,
     pool_spent_date: character.poolSpentDate,
     order_index: character.orderIndex,
   };
@@ -71,7 +71,7 @@ export function rowToHistory(row: HistoryRow): HistoryRecord {
     date: row.date,
     ts: new Date(row.ts).getTime(),
     at: new Date(row.ts).toLocaleString(),
-    data: row.data as Record<string, unknown>,
+    data: row.data as unknown as Record<string, unknown>,
     edited: row.edited,
     editedAt: row.edited_at,
   };
@@ -85,7 +85,7 @@ export function historyToRow(record: HistoryRecord): Database["public"]["Tables"
     type: record.type,
     date: record.date,
     ts: new Date(record.ts).toISOString(),
-    data: record.data,
+    data: record.data as unknown as Json,
     edited: record.edited,
     edited_at: record.editedAt,
   };
