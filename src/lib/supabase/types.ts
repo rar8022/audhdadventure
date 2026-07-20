@@ -1,6 +1,12 @@
 // Hand-written to match supabase/migrations/0001_init.sql.
 // If you change the schema, regenerate with the Supabase CLI instead:
 //   supabase gen types typescript --local > src/lib/supabase/types.ts
+//
+// Every table needs a `Relationships` array and the `public` schema needs
+// Views/Functions/Enums/CompositeTypes keys (even empty) — @supabase/postgrest-js's
+// internal generic helpers constrain against these exact shapes, and without
+// them present, method argument types like `.update()`'s silently collapse
+// to `never` instead of producing a clear type error.
 
 export type Json =
   | string
@@ -10,7 +16,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       accounts: {
@@ -26,6 +32,7 @@ export interface Database {
           id: string;
         };
         Update: Partial<Database["public"]["Tables"]["accounts"]["Row"]>;
+        Relationships: [];
       };
       characters: {
         Row: {
@@ -51,6 +58,7 @@ export interface Database {
           account_id: string;
         };
         Update: Partial<Database["public"]["Tables"]["characters"]["Row"]>;
+        Relationships: [];
       };
       history: {
         Row: {
@@ -72,6 +80,7 @@ export interface Database {
           date: string;
         };
         Update: Partial<Database["public"]["Tables"]["history"]["Row"]>;
+        Relationships: [];
       };
       switch_log: {
         Row: {
@@ -85,7 +94,20 @@ export interface Database {
           character_id: string;
         };
         Update: Partial<Database["public"]["Tables"]["switch_log"]["Row"]>;
+        Relationships: [];
       };
     };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
-}
+};
