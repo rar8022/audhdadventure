@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/lib/supabase/types";
+import type { SupabaseBrowserClient } from "@/lib/supabase/client";
 import type {
   Account,
   ActionSpell,
@@ -25,7 +24,7 @@ import { applyGrowthXP } from "@/lib/game/growth";
 import { combinedBuffCatalog } from "@/lib/game/helpers";
 import { GROWTH_XP_PER_ADVENTURE, GROWTH_XP_PER_MAJOR_ADVENTURE, STAT_MAX } from "@/lib/game/constants";
 
-type SB = SupabaseClient<Database>;
+type SB = SupabaseBrowserClient;
 
 function newId(prefix: string): string {
   return prefix + Math.random().toString(36).slice(2, 10);

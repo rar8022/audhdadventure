@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/lib/supabase/types";
+import type { SupabaseBrowserClient } from "@/lib/supabase/client";
 import { MAIN_ROLES, PHYS_STATS, STAT_MAX } from "@/lib/game/constants";
 import type { Character, HistoryRecord } from "@/lib/game/types";
 import { useAppStore } from "@/lib/store/useAppStore";
@@ -18,7 +17,7 @@ export default function HistoryEditForm({
   record,
   characterName,
 }: {
-  supabase: SupabaseClient<Database>;
+  supabase: SupabaseBrowserClient;
   record: HistoryRecord;
   characterName: string;
 }) {

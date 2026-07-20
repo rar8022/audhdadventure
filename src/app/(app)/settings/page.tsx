@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { SupabaseClient } from "@supabase/supabase-js";
-import { createClient } from "@/lib/supabase/client";
-import type { Database } from "@/lib/supabase/types";
+import { createClient, type SupabaseBrowserClient } from "@/lib/supabase/client";
 import { useAppStore } from "@/lib/store/useAppStore";
 import {
   ACTION_SPELL_COSTS,
@@ -17,7 +15,7 @@ import { formatDateLong, pad2 } from "@/lib/game/helpers";
 import type { ActionSpellKind, BuffPolarity, Character } from "@/lib/game/types";
 import CharacterRow from "@/components/CharacterRow";
 
-type SB = SupabaseClient<Database>;
+type SB = SupabaseBrowserClient;
 
 function HourMinuteSelect({
   supabase,

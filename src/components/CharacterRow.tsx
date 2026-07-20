@@ -1,7 +1,6 @@
 "use client";
 
-import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/lib/supabase/types";
+import type { SupabaseBrowserClient } from "@/lib/supabase/client";
 import { MAIN_ROLES } from "@/lib/game/constants";
 import type { Character } from "@/lib/game/types";
 import { useAppStore } from "@/lib/store/useAppStore";
@@ -12,7 +11,7 @@ export default function CharacterRow({
   isActive,
   canRemove,
 }: {
-  supabase: SupabaseClient<Database>;
+  supabase: SupabaseBrowserClient;
   character: Character;
   isActive: boolean;
   canRemove: boolean;
