@@ -31,7 +31,7 @@ export function rowToCharacter(row: CharacterRow): Character {
  * Full-row payload for a Character — used for both inserts (after deleting
  * the placeholder `id` so Postgres generates one) and updates.
  */
-export function characterToRow(character: Character): Database["public"]["Tables"]["characters"]["Row"] {
+export function characterToRow(character: Character): Database["public"]["Tables"]["characters"]["Insert"] {
   return {
     id: character.id,
     account_id: character.accountId,
